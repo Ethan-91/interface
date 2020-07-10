@@ -35,27 +35,31 @@ const FixedBottom = styled.div`
 export default function Pool({ history }: RouteComponentProps) {
   const theme = useContext(ThemeContext)
   const { account } = useActiveWeb3React()
-  //console.log(account)
+
   const [showPoolSearch, setShowPoolSearch] = useState(false)
 
   // fetch the user's balances of all tracked V2 LP tokens
   const V2DummyPairs = useAllDummyPairs()
+
   const [V2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
     account,
     V2DummyPairs?.map(p => p.liquidityToken)
   )
+
   // fetch the reserves for all V2 pools in which the user has a balance
   const V2DummyPairsWithABalance = V2DummyPairs.filter(
     V2DummyPair =>
       V2PairsBalances[V2DummyPair.liquidityToken.address] &&
       JSBI.greaterThan(V2PairsBalances[V2DummyPair.liquidityToken.address].raw, JSBI.BigInt(0))
   )
+
   const V2Pairs = usePairs(
     V2DummyPairsWithABalance.map(V2DummyPairWithABalance => [
       V2DummyPairWithABalance.token0,
       V2DummyPairWithABalance.token1
     ])
   )
+
   const V2IsLoading =
     fetchingV2PairBalances || V2Pairs?.length < V2DummyPairsWithABalance.length || V2Pairs?.some(V2Pair => !!!V2Pair)
 

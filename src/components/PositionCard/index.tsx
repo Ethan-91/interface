@@ -63,8 +63,7 @@ function PositionCard({ pair, history, border, minimal = false }: PositionCardPr
           pair.getLiquidityValue(token1, totalPoolTokens, userPoolBalance, false)
         ]
       : [undefined, undefined]
-  console.log(token0Deposited)
-  console.log(totalPoolTokens)
+
   if (minimal) {
     return (
       <>
